@@ -79,10 +79,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetVelocity(Vector3 newVelocity)
     {
-        Vector3 clampedVelocity = ClampVelocity(newVelocity);
-        currentVelocityZ = Mathf.Max(clampedVelocity.z, minVelocityZ);
-        clampedVelocity.z = currentVelocityZ;
+        Vector3 lerped = Vector3.Lerp(rb.linearVelocity, newVelocity, 0.25f);
+
+        Vector3 clampedVelocity = ClampVelocity(lerped);
         rb.linearVelocity = clampedVelocity;
+        currentVelocityZ = clampedVelocity.z;
     }
 
     private Vector3 ClampVelocity(Vector3 newVelocity)
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 resultVelocity = newVelocity;
         if (newVelocity.magnitude > maxDragSpeed)
         {
-            resultVelocity = newVelocity / (newVelocity.magnitude * maxDragSpeed);
+            resultVelocity = newVelocity.normalized * maxDragSpeed;
         }
         return resultVelocity;
     }

@@ -4,11 +4,11 @@ public class ObstacleDestroyer : MonoBehaviour
 {
     [SerializeField] private LayerMask obstacleLayer;
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (((1 << collision.gameObject.layer) & obstacleLayer) != 0)
+        if (((1 << other.gameObject.layer) & obstacleLayer) != 0)
         {
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
         }
-    } 
+    }
 }

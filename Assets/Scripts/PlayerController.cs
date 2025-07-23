@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private InputAction touchPosition;
     private InputAction touchPressed;
     private WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+    private Vector3 dragStartPoint;
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -34,8 +35,10 @@ public class PlayerController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenPosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if ((hit.collider != null)) // && (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Ground")))
+            if (hit.collider != null) // && (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Ground")))
             {
+                float initialDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
+                dragStartPoint = Camera.main.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, initialDistance));
                 StartCoroutine(DragUpdate(hit.collider.gameObject));
             }
         }
@@ -43,13 +46,14 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DragUpdate(GameObject clickedObject)
     {
-        // float initialDistance = Vector3.Distance(clickedObject.transform.position, Camera.main.transform.position);
         float initialDistance = Vector3.Distance(clickedObject.transform.position, Camera.main.transform.position);
         playerMovement.OnStartDrag();
         while (touchPressed.ReadValue<float>() != 0)
         {
-            Ray ray = Camera.main.ScreenPointToRay(touchPosition.ReadValue<Vector2>()); // Update ray if we still touch on the screen
-            Vector3 direction = ray.GetPoint(initialDistance) - clickedObject.transform.position;   // Calculate direction to move
+            Vector2 screenPos = touchPosition.ReadValue<Vector2>();
+            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, initialDistance));
+            Vector3 direction = currentPosition - dragStartPoint;   // Calculate direction to move
+            Debug.Log(direction);
             direction.y = 0f;   // Zero out y, it should not go up and down
             playerMovement.SetVelocity(direction * dragSpeed);
             yield return waitForFixedUpdate;

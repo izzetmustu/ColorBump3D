@@ -14184,7 +14184,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -14277,12 +14277,24 @@ PrefabInstance:
       objectReference: {fileID: 1084994638}
     - target: {fileID: 5736319846952047998, guid: a8f3b5f1c4bb3154093bdaa734fdd41e, type: 3}
       propertyPath: acceleration
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5736319846952047998, guid: a8f3b5f1c4bb3154093bdaa734fdd41e, type: 3}
       propertyPath: levelManager
       value: 
       objectReference: {fileID: 2018912877}
+    - target: {fileID: 5736319846952047998, guid: a8f3b5f1c4bb3154093bdaa734fdd41e, type: 3}
+      propertyPath: maxDragSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736319846952047998, guid: a8f3b5f1c4bb3154093bdaa734fdd41e, type: 3}
+      propertyPath: maxVelocityZ
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5736319846952047998, guid: a8f3b5f1c4bb3154093bdaa734fdd41e, type: 3}
+      propertyPath: minVelocityZ
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6462266245975285706, guid: a8f3b5f1c4bb3154093bdaa734fdd41e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
