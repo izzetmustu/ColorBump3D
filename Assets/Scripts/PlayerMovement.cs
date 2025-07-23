@@ -1,4 +1,6 @@
+using Unity.Entities.UniversalDelegates;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float acceleration = 1f;
 
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private float currentVelocityZ = 0f;
     private bool isBeingDragged  = false;
     private bool isGameOver = false;
@@ -79,8 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetVelocity(Vector3 newVelocity)
     {
-        Vector3 lerped = Vector3.Lerp(rb.linearVelocity, newVelocity, 0.25f);
-
+        Vector3 lerped = Vector3.Lerp(rb.linearVelocity, newVelocity, 1f);
         Vector3 clampedVelocity = ClampVelocity(lerped);
         rb.linearVelocity = clampedVelocity;
         currentVelocityZ = clampedVelocity.z;
@@ -89,9 +90,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 ClampVelocity(Vector3 newVelocity)
     {
         Vector3 resultVelocity = newVelocity;
-        if (newVelocity.magnitude > maxDragSpeed)
+        if (newVelocity[2] < minVelocityZ)
         {
-            resultVelocity = newVelocity.normalized * maxDragSpeed;
+            resultVelocity[2] = minVelocityZ;
+        }        
+        if (resultVelocity.magnitude > maxDragSpeed)
+        {
+            resultVelocity = resultVelocity.normalized * maxDragSpeed;
         }
         return resultVelocity;
     }
