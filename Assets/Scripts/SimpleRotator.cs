@@ -7,10 +7,10 @@ public class SimpleRotator : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.angularVelocity = new Vector3(0f, rotationSpeed, 0f);
     }
     void FixedUpdate()
     {
+        if (rb.isKinematic) return;
         rb.angularVelocity = Vector3.up * rotationSpeed;
     }
 }

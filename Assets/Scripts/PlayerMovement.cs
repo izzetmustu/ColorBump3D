@@ -97,12 +97,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnStartDrag()
     {
-        Debug.Log("OnStartDrag");
         isBeingDragged = true;
     }
     public void OnEndDrag()
     {
-        Debug.Log("OnEndDrag");
         isBeingDragged = false;
     } 
 }

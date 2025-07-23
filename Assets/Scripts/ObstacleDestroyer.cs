@@ -8,7 +8,6 @@ public class ObstacleDestroyer : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & obstacleLayer) != 0)
         {
-            Debug.Log("Destroyed obstacle: " + collision.gameObject.name);
             Destroy(collision.gameObject);
         }
     } 
